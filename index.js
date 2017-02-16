@@ -59,7 +59,11 @@ flowdockStream.on('data', function flowDockEventHandler(data) {
         prolog = `This is ${from}, `;
       }
     }
-    let msg = data.content;
+    let msg = data.content.substring(0, 224);
+    if (msg.length < data.content.length) {
+      msg.replace(/\w+$/, '');
+      msg += ' clipped';
+    }
     for (let i = 0; i < filters.length; i++) {
       msg = msg.replace(filters[i].re, filters[i].say);
     }
