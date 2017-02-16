@@ -1,9 +1,16 @@
 {
-  "ORGANIZATION": "your-organization",
-  "FLOWS": ["flow1", "flow2"],
-  "VOICES" : {
+  "organization": "your-organization",
+  "flows": ["flow1", "flow2"],
+  "voices" : {
       "user": "voice1",
       "user2": "voice2"
+    },
+  "defaultRequestOptions": {},
+  "filters" : [
+    {
+      "match": "#(\\w+)",
+      "say": "hashtag $1",
+      "flags": "gi"
     }
-  }
+  ]
 }

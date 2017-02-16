@@ -1,25 +1,53 @@
 
 /* eslint-env node */
-var FlowdockStream = require('flowdock-stream');
-var config = require('./config.json');
-var org = config.ORGANIZATION;
-var flows = config.FLOWS;
-var apikey = process.env.FLOWDOCK_API_KEY;
-var defaultRequestOptions = { };
-var say = require('say');
-var flowdockStream = FlowdockStream.createClient(org, flows, apikey, defaultRequestOptions);
+const FlowdockStream = require('flowdock-stream');
+const Say = require('say');
+const config = require('./config.json');
+var apikey = process.env.FLOWDOCK_API_KEY ? process.env.FLOWDOCK_API_KEY : config.flowdockApiKey;
+if (!apikey) {
+  console.error('Flowdock API key not set. Check your configuration.');
+}
+var flowdockStream = FlowdockStream.createClient(
+  config.organization,
+  config.flows,
+  apikey,
+  config.defaultRequestOptions);
 
-var voices = ['Alex', 'Agnes', 'Bruce', 'Kathy', 'Junior', 'Princess', 'Vicki',
-  'Ralph', 'Victoria', 'Fred', 'Albert'];
+var voices = [''];
 
-var speakingVoices = config.VOICES;
+if (process.platform === 'linux') {
+  // Assumes voices installed for Festival (http://www.festvox.org/)
+  voices = ['voice_rab_diphone', 'voice_ked_diphone', 'voice_kal_diphone',
+    'voice_don_diphone', 'voice_en1_mbrola', 'voice_us1_mbrola',
+    'voice_us2_mbrola', 'voice_us3_mbrola'];
+} else if (process.platform == 'darwin') {
+  // MacOS
+  voices = ['Alex', 'Agnes', 'Bruce', 'Kathy',
+    'Junior', 'Princess', 'Vicki', 'Ralph',
+    'Victoria', 'Fred', 'Albert', 'Whisper'];
+}
+// Windows [ignores the voice parameter](https://github.com/Marak/say.js/issues/46).
+
+
+var speakingVoices = config.voices;
 
 var lastSpoke = {};
 var lastSpeaker = '';
 
+var filters = config.filters;
+// Precompile all the filter regular expressions
+for (let i = 0; i < filters.length; i++) {
+  let flags = 'flags' in filters[i] ? filters[i].flags : 'gi';
+  filters[i].re = new RegExp(filters[i].match, flags);
+}
+
 flowdockStream.on('ready', function onReady() {
-  say.speak('Connected.');
-  console.log('flowdockStream is ready, flows:\r\n', flowdockStream.flows);
+  let flows = '';
+  for (let id in flowdockStream.flows) {
+    flows += ` ${flowdockStream.flows[id].name}`;
+  }
+  Say.speak(`Connected to ${flows}.`);
+  console.log(`Connected to ${flows}.`);
 });
 
 flowdockStream.on('data', function flowDockEventHandler(data) {
@@ -30,7 +58,7 @@ flowdockStream.on('data', function flowDockEventHandler(data) {
     if (from != lastSpeaker) {
       lastSpeaker = from;
       if (!(from in speakingVoices)) {
-        speakingVoices[lastSpeaker] = voices[Math.floor(Math.random() * voices.length)];;
+        speakingVoices[lastSpeaker] = voices[Math.floor(Math.random() * voices.length)];
       }
       var now = Date.now() / 1000;
       if (!(from in lastSpoke) || (now - lastSpoke[from] > 300)) {
@@ -38,17 +66,14 @@ flowdockStream.on('data', function flowDockEventHandler(data) {
         prolog = `This is ${from}, `;
       }
     }
-    var msg = data.content
-      .replace(/^@(\w+)/g, '(to $1)')
-      .replace(/ @(\w+)/g, '$1')
-/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/,
-      'a url')
-      .replace(/\bsolr\b/g, 'solar')
-      .replace(/\brsync\b/g, 'arsink')
-      .replace(/\bkoubot\b/g, 'Koobot')
-      .replace(/FWIW/, 'For what its worth');
-    console.log(`a message from ${from}, ${data.content} -> ${msg}`);
-    say.speak(prolog + msg, speakingVoices[from]);
+    var msg = data.content;
+    for (let i = 0; i < filters.length; i++) {
+      msg = msg.replace(filters[i].re, filters[i].say);
+    }
+    console.log(`${from}: ${msg}`);
+    Say.speak(prolog + msg, speakingVoices[from]);
+  } else {
+    console.log(data.event);
   }
 });
 
