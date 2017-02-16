@@ -1,5 +1,5 @@
+'use strict';
 
-/* eslint-env node */
 const FlowdockStream = require('flowdock-stream');
 const Say = require('say');
 const config = require('./config.json');
@@ -64,7 +64,7 @@ flowdockStream.on('data', function flowDockEventHandler(data) {
     console.log(`${from}: ${msg}`);
     Say.speak(prolog + msg, speakingVoices[from]);
   } else {
-    console.log(data.event);
+    console.log(data);
   }
 });
 

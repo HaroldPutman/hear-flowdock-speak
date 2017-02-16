@@ -10,6 +10,10 @@ Set your Flowdock personal API token in an environment variable
 `FLOWDOCK_API_KEY`. You can find this Token by logging in to Flowdock
 (or CA Agile Central) and visiting [https://www.flowdock.com/account/tokens](https://www.flowdock.com/account/tokens).
 
+```
+FLOWDOCK_API_KEY=abcdef0123456789 npm start
+```
+
 ### config.json
 
 You must set up configuration by copying `config.template.json` to `config.json`
