@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Give a voice to flowdock chat",
   "main": "index.js",
+  "bin": {
+    "hear-flowdock-speak": "./index.js"
+  },
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"

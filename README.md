@@ -2,6 +2,16 @@
 
 A commandline utility to vocalize a Flowdock chat stream.
 
+## Quickstart
+
+```
+$ npm install -g hear-flowdock-speak`
+```
+Configure your environment and then:
+```
+$ hear-flowdock-speak
+```
+
 ## Configuration
 
 ### Environment Variables
@@ -11,7 +21,7 @@ Set your Flowdock personal API token in an environment variable
 (or CA Agile Central) and visiting [https://www.flowdock.com/account/tokens](https://www.flowdock.com/account/tokens).
 
 ```
-FLOWDOCK_API_KEY=abcdef0123456789 npm start
+$ FLOWDOCK_API_KEY=abcdef0123456789 hear-flowdock-speak
 ```
 
 ### config.json
@@ -23,8 +33,8 @@ and editing to match your environment.
 * `flowdockApiKey` - _Optional_ Your Flowdock API key. You can set this here or
 in the environment variable.
 * `flows` - an array of names of flows to vocalize.
-* `voices` - an array of names of the available voices for your platform. See the [say](https://www.npmjs.com/package/request) package for details.
-* `userVoices` - A map of Flowdock user names to OS Voices. If a user is not in the list, they are assigned a random voice.
+* `voices` - an array of names of the available voices for your platform. See the [say](https://www.npmjs.com/package/say) package for details.
+* `userVoices` - A map of Flowdock user names to OS Voices. If a user is not in the list, they are assigned a random voice from `voices`.
 * `filters` - A collection of regular expressions to improve pronunciations. This is an array of objects with these properties:
   * `match`- The regular expression to match (remember to escape backslashes)
   * `flags` - Optional regex flags. The default is `gi`
@@ -32,11 +42,3 @@ in the environment variable.
 * `defaultRequestOptions` - the defaultRequestOptions is an object passed to
 the underlying [request](https://www.npmjs.com/package/request) module to use
 as default options (ie. proxy settings).
-
-## Installation
-
-`npm install`
-
-## Running
-
-`npm start`

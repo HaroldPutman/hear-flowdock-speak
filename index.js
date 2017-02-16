@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 'use strict';
 
 const FlowdockStream = require('flowdock-stream');
@@ -64,7 +66,11 @@ flowdockStream.on('data', function flowDockEventHandler(data) {
     console.log(`${from}: ${msg}`);
     Say.speak(prolog + msg, speakingVoices[from]);
   } else {
-    console.log(data);
+    if (data.author) {
+      console.log(`${data.event} on ${data.flow} by ${data.author.name}`);
+    } else {
+      console.log(`${data.event} on ${data.flow}`);
+    }
   }
 });
 
