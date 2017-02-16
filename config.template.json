@@ -1,0 +1,10 @@
+{
+  "ORGANIZATION": "your-organization",
+  "PERSONAL_API_KEY": "your-api-key",
+  "FLOWS": ["flow1", "flow2"],
+  "VOICES" : {
+      "user": "voice1",
+      "user2": "voice2"
+    }
+  }
+}
