@@ -1,7 +1,21 @@
 {
   "organization": "your-organization",
   "flows": ["flow1", "flow2"],
-  "voices" : {
+  "voices" : [
+    "Alex",
+    "Agnes",
+    "Bruce",
+    "Kathy",
+    "Junior",
+    "Princess",
+    "Vicki",
+    "Ralph",
+    "Victoria",
+    "Fred",
+    "Albert",
+    "Whisper"
+  ],
+  "userVoices" : {
       "user": "voice1",
       "user2": "voice2"
     },
