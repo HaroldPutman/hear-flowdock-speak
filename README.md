@@ -40,6 +40,8 @@ in the environment variable.
   * `match`- The regular expression to match (remember to escape backslashes)
   * `flags` - Optional regex flags. The default is `gi`
   * `say` - The replacement text. Use `$1` to refer to first capture group.
+  (On the Mac, see [Speech Speech Synthesis Programming Guide](https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/SpeechSynthesisProgrammingGuide)
+  for ways to enhance voice output.)
 * `defaultRequestOptions` - the defaultRequestOptions is an object passed to
 the underlying [request](https://www.npmjs.com/package/request) module to use
 as default options (ie. proxy settings).

@@ -42,7 +42,8 @@ flowdockStream.on('ready', function onReady() {
       return acc + ((arr.length - idx > 1) ? ', ' : ' and ') + flow.name;
     }, '');
   Say.speak(`Connected to ${flowList}.`);
-  console.log(`Connected to ${flowList}.`);
+  let timestamp = new Date().toISOString().slice(11, 19);
+  console.log(`${timestamp} Connected to ${flowList}.`);
 });
 
 flowdockStream.on('data', function flowDockEventHandler(data) {
@@ -69,7 +70,8 @@ flowdockStream.on('data', function flowDockEventHandler(data) {
     filters.forEach(function process(filter) {
       msg = msg.replace(filter.re, filter.say);
     });
-    console.log(`${from}: ${msg}`);
+    let timestamp = new Date().toISOString().slice(11, 19);
+    console.log(`${timestamp} ${from}: ${msg}`);
     Say.speak(prolog + msg, speakingVoices[from]);
   }
 });
