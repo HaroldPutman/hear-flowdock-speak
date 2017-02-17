@@ -24,24 +24,25 @@ const speakingVoices = config.userVoices;
 const lastSpoke = {};
 var lastSpeaker = '';
 
-const filters = config.filters;
 // Precompile all the filter regular expressions
-for (let i = 0; i < filters.length; i++) {
-  let flags = 'flags' in filters[i] ? filters[i].flags : 'gi';
-  filters[i].re = new RegExp(filters[i].match, flags);
-}
+const filters = config.filters.map(function compile(filter) {
+  let flags = 'flags' in filter ? filter.flags : 'gi';
+  return {
+    re: new RegExp(filter.match, flags),
+    say: filter.say
+  };
+});
 
 flowdockStream.on('ready', function onReady() {
-  let flows = '';
-  let keys = Object.keys(flowdockStream.flows);
-  for (let i = 0; i < keys.length; i++) {
-    if (i > 0) {
-      flows += (keys.length - i == 1) ? ' and' : ',';
-    }
-    flows += ` ${flowdockStream.flows[keys[i]].name}`;
-  }
-  Say.speak(`Connected to ${flows}.`);
-  console.log(`Connected to ${flows}.`);
+  let flowList = Object.values(flowdockStream.flows)
+    .reduce(function list(acc, flow, idx, arr) {
+      if (idx === 0) {
+        return acc + flow.name;
+      }
+      return acc + ((arr.length - idx > 1) ? ', ' : ' and ') + flow.name;
+    }, '');
+  Say.speak(`Connected to ${flowList}.`);
+  console.log(`Connected to ${flowList}.`);
 });
 
 flowdockStream.on('data', function flowDockEventHandler(data) {
@@ -65,17 +66,11 @@ flowdockStream.on('data', function flowDockEventHandler(data) {
       msg.replace(/\w+$/, '');
       msg += ' clipped';
     }
-    for (let i = 0; i < filters.length; i++) {
-      msg = msg.replace(filters[i].re, filters[i].say);
-    }
+    filters.forEach(function process(filter) {
+      msg = msg.replace(filter.re, filter.say);
+    });
     console.log(`${from}: ${msg}`);
     Say.speak(prolog + msg, speakingVoices[from]);
-  } else {
-    if (data.author) {
-      console.log(`${data.event} on ${data.flow} by ${data.author.name}`);
-    } else {
-      console.log(`${data.event} on ${data.flow}`);
-    }
   }
 });
 
