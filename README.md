@@ -24,10 +24,11 @@ Set your Flowdock personal API token in an environment variable
 $ FLOWDOCK_API_KEY=abcdef0123456789 hear-flowdock-speak
 ```
 
-### config.json
+### .hear-flowdock-speak.json
 
-You must set up configuration by copying `config.template.json` to `config.json`
-and editing to match your environment.
+You must set up configuration by copying `config.template.json` to
+`~/.hear-flowdock-speak.json` in your home folder and editing to match
+your environment.
 
 * `organization` - Your organization name in flowdock
 * `flowdockApiKey` - _Optional_ Your Flowdock API key. You can set this here or

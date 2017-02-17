@@ -4,7 +4,8 @@
 
 const FlowdockStream = require('flowdock-stream');
 const Say = require('say');
-const config = require('./config.json');
+const homedir = require('os').homedir();
+const config = require(`${homedir}/.hear-flowdock-speak.json`);
 const apikey = process.env.FLOWDOCK_API_KEY ? process.env.FLOWDOCK_API_KEY : config.flowdockApiKey;
 if (!apikey) {
   console.error('Flowdock API key not set. Check your configuration.');
