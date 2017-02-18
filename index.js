@@ -59,13 +59,13 @@ flowdockStream.on('data', function flowDockEventHandler(data) {
       let now = Date.now() / 1000;
       if (!(from in lastSpoke) || (now - lastSpoke[from] > 300)) {
         lastSpoke[from] = now;
-        prolog = `This is ${from}, `;
+        prolog = `[This is ${from},] `;
       }
     }
     let msg = data.content.substring(0, 224);
     if (msg.length < data.content.length) {
-      msg.replace(/\w+$/, '');
-      msg += ' clipped';
+      msg = msg.replace(/\w{0,10}$/, '');
+      msg += ' [clipped]';
     }
     filters.forEach(function process(filter) {
       msg = msg.replace(filter.re, filter.say);
