@@ -16,8 +16,8 @@
     "Whisper"
   ],
   "userVoices" : {
-      "user": "voice1",
-      "user2": "voice2"
+      "user1": "Alex",
+      "user2": "Bruce"
     },
   "defaultRequestOptions": {},
   "filters" : [
