@@ -5,7 +5,7 @@ A commandline utility to vocalize a Flowdock chat stream.
 ## Quickstart
 
 ```
-$ npm install -g hear-flowdock-speak`
+$ npm install -g hear-flowdock-speak
 ```
 Configure your environment and then:
 ```
