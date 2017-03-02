@@ -30,10 +30,10 @@ You must set up configuration by copying `config.template.json` to
 `~/.hear-flowdock-speak.json` in your home folder and editing to match
 your environment.
 
-* `organization` - Your organization name in flowdock
+* `organization` - Your organization name<sup>1</sup> in flowdock
 * `flowdockApiKey` - _Optional_ Your Flowdock API key. You can set this here or
 in the environment variable.
-* `flows` - an array of names of flows to vocalize.
+* `flows` - an array of names<sup>1</sup> of flows to vocalize.
 * `voices` - an array of names of the available voices for your platform. See the [say](https://www.npmjs.com/package/say) package for details.
 * `userVoices` - A map of Flowdock user names to OS Voices. If a user is not in the list, they are assigned a random voice from `voices`.
 * `filters` - A collection of regular expressions to improve pronunciations. This is an array of objects with these properties:
@@ -45,3 +45,7 @@ in the environment variable.
 * `defaultRequestOptions` - the defaultRequestOptions is an object passed to
 the underlying [request](https://www.npmjs.com/package/request) module to use
 as default options (ie. proxy settings).
+
+<sup>1</sup> To find your flow name or organization name, choose Integrations
+from the flow context menu. Look at the source for the Email integration. The
+email address to send to the flow contains the flow and organization names: *flow-name*@*organization*.flowdock.com.
