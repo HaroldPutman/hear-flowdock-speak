@@ -20,6 +20,7 @@
   "license": "MIT",
   "repository": "HaroldPutman/hear-flowdock-speak",
   "dependencies": {
+    "sshpk": "^1.14.1",
     "flowdock-stream": "^1.1.1",
     "say": "^0.15.0"
   }
