@@ -34,12 +34,12 @@ const filters = config.filters.map(function compile(filter) {
 });
 
 flowdockStream.on('ready', function onReady() {
-  let flowList = Object.values(flowdockStream.flows)
-    .reduce(function list(acc, flow, idx, arr) {
+  let flowList = Object.keys(flowdockStream.flowMap)
+    .reduce(function list(acc, flowname, idx, arr) {
       if (idx === 0) {
-        return acc + flow.name;
+        return acc + flowname;
       }
-      return acc + ((arr.length - idx > 1) ? ', ' : ' and ') + flow.name;
+      return acc + ((arr.length - idx > 1) ? ', ' : ' and ') + flowname;
     }, '');
   Say.speak(`Connected to ${flowList}.`);
   let timestamp = new Date().toISOString().slice(11, 19);
@@ -73,7 +73,15 @@ flowdockStream.on('data', function flowDockEventHandler(data) {
     let timestamp = new Date().toISOString().slice(11, 19);
     console.log(`${timestamp} ${from}: ${msg}`);
     Say.speak(prolog + msg, speakingVoices[from]);
+  } else {
+    let timestamp = new Date().toISOString().slice(11, 19);
+    console.log(`${timestamp} ${data.event}`);
   }
+
+});
+
+flowdockStream.on('close', function closeHandler() {
+  console.log('The stream is closed.');
 });
 
 flowdockStream.on('error', function realGoodErrorHandler(err) {
