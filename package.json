@@ -21,6 +21,10 @@
   "repository": "HaroldPutman/hear-flowdock-speak",
   "dependencies": {
     "flowdock-stream": "^1.1.1",
-    "say": "^0.15.0"
+    "say": "^0.15.0",
+    "sshpk": "^1.14.1"
+  },
+  "devDependencies": {
+    "snyk": "^1.110.2"
   }
 }
