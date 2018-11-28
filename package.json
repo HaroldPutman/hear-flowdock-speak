@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "snyk test"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "flowdock",
